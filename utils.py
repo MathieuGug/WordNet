@@ -71,6 +71,10 @@ def dice_similarity(x, y):
     s2 = np.linalg.norm(y, ord=1)
     return 2*np.sum([min(xi, yi) for xi, yi in zip(x, y)])/(s1 + s2)
 
+def zkl_divergence(x, y, gamma):
+    """ZKL-divergence to approximate the KL divergence when q_i = 0"""
+    return np.sum([p_i*np.log(p_i/q_i) if q_i > 0 and p_i > 0 else p_i*gamma for (p_i, q_i) in zip(x, y)])
+
 def stationary_distribution(sentence, vectorizer, i, tfidf, G, M):
     """return a vector of the same length as the number of nodes
     Input :
